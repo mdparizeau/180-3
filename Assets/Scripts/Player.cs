@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Name: Michael Parizeau
@@ -21,6 +22,8 @@ public class Player : MonoBehaviour
     private bool is_touching_right = false;
     private bool is_touching_forward = false;
     private bool is_touching_back = false;
+    // variable for if player quit, or if they won
+    public bool is_quitter = true;
 
     /// <summary>
     /// initialize player object and locking of mouse as cursor
@@ -30,7 +33,14 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         rb = GetComponent<Rigidbody>();
     }
-
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.GetComponent<Door>())
+        {
+            SceneManager.LoadScene(other.gameObject.GetComponent<Door>().sceneIndex);
+            Cursor.lockState = CursorLockMode.None;
+        }
+    }
     void Update()
     {
         // input -> transform
@@ -87,7 +97,11 @@ public class Player : MonoBehaviour
         //Raycast forward to find a wall
         if (Physics.Raycast(front_ray, out hit) && !hit.collider.isTrigger)
             if (hit.distance <= .6)
+            {
                 is_touching_forward = true;
+                if (hit.collider.gameObject.GetComponent<NPC>())
+                    FindObjectOfType<dialogueTrigger>().TriggerDialogue();
+            }
             else is_touching_forward = false;
 
         //Raycast back to find a wall
