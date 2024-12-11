@@ -25,6 +25,9 @@ public class Player : MonoBehaviour
     // variable for if player quit, or if they won
     public bool is_quitter = true;
 
+    private int level;
+    public GameObject stick;
+
     /// <summary>
     /// initialize player object and locking of mouse as cursor
     /// </summary>
@@ -68,6 +71,21 @@ public class Player : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
         }
+
+        if ()
+
+        // swings stick forward
+        if (Input.GetKeyDown("left shift"))
+        {
+            stick.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
+        }
+        // returns stick to upright position
+        if (Input.GetKeyUp("left shift"))
+        {
+            stick.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
+        }
+
+        //if (SceneManager.GetActiveScene().buildIndex)
     }
     /// <summary>
     /// check if player is touching walls, and allow constant rotation of their camera
