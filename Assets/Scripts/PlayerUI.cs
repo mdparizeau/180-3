@@ -23,6 +23,6 @@ public class PlayerUI : MonoBehaviour
     void Update()
     {
         // shows player how to move and interact
-        controls.text = "Move: WASD\nInteract: Run into things";
+        controls.text = "Move: WASD\nPress 'E' to interact";
     }
 }

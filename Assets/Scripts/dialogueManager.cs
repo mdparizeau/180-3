@@ -14,10 +14,18 @@ public class dialogueManager : MonoBehaviour
 
     private Queue<string> sentences;
 
+    private int counter = 0;
+
     // Start is called before the first frame update
     void Start()
     {
         sentences = new Queue<string>();
+    }
+
+    void Update()
+    {
+        if (counter > 0 && Input.GetKeyDown("q"))
+            DisplayNextSentence();
     }
 
     public void StartDialogue (dialogue Dialogue)
@@ -33,12 +41,15 @@ public class dialogueManager : MonoBehaviour
             sentences.Enqueue(sentence);
         }
 
+        counter = 0;
+
         DisplayNextSentence();
     }
 
     public void DisplayNextSentence()
     {
-        if (sentences.Count == 0)
+        //if (sentences.Count == 0)
+        if (counter == 3)
         {
             EndDialogue();
             return;
@@ -47,6 +58,7 @@ public class dialogueManager : MonoBehaviour
         string sentence = sentences.Dequeue();
         StopAllCoroutines();
         StartCoroutine(TypeSentence(sentence));
+        counter++;
     }
 
     IEnumerator TypeSentence (string sentence)
