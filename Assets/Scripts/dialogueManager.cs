@@ -63,6 +63,9 @@ public class dialogueManager : MonoBehaviour
     {
         animator.SetBool("isOpen", false);
         Debug.Log("End of conversation.");
+        FindObjectOfType<Player>().moveSpeed = 5f;
+        FindObjectOfType<MouseLook>().sensitivity = 20f;
+        FindObjectOfType<PlayerUI>().continue_dialogue.text = "";
     }
 
 }

@@ -6,4 +6,5 @@ using UnityEngine.SceneManagement;
 public class Door : MonoBehaviour
 {
     public int sceneIndex;
+    public string doorName;
 }

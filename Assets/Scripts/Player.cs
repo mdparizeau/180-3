@@ -35,10 +35,11 @@ public class Player : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<Door>())
+        if (other.gameObject.GetComponent<Door>().doorName == "Quit")
         {
             SceneManager.LoadScene(other.gameObject.GetComponent<Door>().sceneIndex);
             Cursor.lockState = CursorLockMode.None;
+            is_quitter = true;
         }
     }
     void Update()
@@ -100,7 +101,14 @@ public class Player : MonoBehaviour
             {
                 is_touching_forward = true;
                 if (hit.collider.gameObject.GetComponent<NPC>())
+                {
+                    // start the dialogue
                     FindObjectOfType<dialogueTrigger>().TriggerDialogue();
+                    // disable Player's keyboard and mouse movement
+                    moveSpeed = 0f;
+                    FindObjectOfType<MouseLook>().sensitivity = 0f;
+                    FindObjectOfType<PlayerUI>().continue_dialogue.text = "Press 'E' to continue NPC dialogue";
+                }
             }
             else is_touching_forward = false;
 
