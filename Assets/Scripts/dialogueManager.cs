@@ -16,6 +16,8 @@ public class dialogueManager : MonoBehaviour
 
     private int counter = 0;
 
+    private string discard;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +43,9 @@ public class dialogueManager : MonoBehaviour
             sentences.Enqueue(sentence);
         }
 
+        for (int i = 0; i < Player.level * 3; i++)
+            discard = sentences.Dequeue();
+
         counter = 0;
 
         DisplayNextSentence();
@@ -48,12 +53,12 @@ public class dialogueManager : MonoBehaviour
 
     public void DisplayNextSentence()
     {
-        //if (sentences.Count == 0)
-        if (counter == 3)
+        if (counter == 3 || sentences.Count == 0)
         {
             EndDialogue();
             return;
         }
+
 
         string sentence = sentences.Dequeue();
         StopAllCoroutines();

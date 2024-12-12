@@ -29,8 +29,8 @@ public class Player : MonoBehaviour
     public GameObject stick;
     private bool attacked = false;
     // dynamic variables that track where the player has gone and how many coins they have
-    private int level;
-    public int coins;
+    public static int level = 0;
+    public static int coins;
 
     /// <summary>
     /// initialize player object and locking of mouse as cursor
@@ -44,11 +44,24 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Door>())
         {
-            SceneManager.LoadScene(other.gameObject.GetComponent<Door>().sceneIndex);
-            if (other.gameObject.GetComponent<Door>().doorName == "Quit")
+            if (other.gameObject.GetComponent<Door>().doorName == "Guess")
             {
-                Cursor.lockState = CursorLockMode.None;
-                is_quitter = true;
+                if (coins >= 50)
+                {
+                    coins -= 50;
+                    SceneManager.LoadScene(other.gameObject.GetComponent<Door>().sceneIndex);
+                    Cursor.lockState = CursorLockMode.None;
+                }
+                else print("You broke!!");
+            }
+            else
+            {
+                SceneManager.LoadScene(other.gameObject.GetComponent<Door>().sceneIndex);
+                if (other.gameObject.GetComponent<Door>().doorName == "Quit")
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                    is_quitter = true;
+                }
             }
         }
     }
@@ -114,8 +127,8 @@ public class Player : MonoBehaviour
         }
 
         // update player's level if they enter a higher level than they've been to before
-        if (SceneManager.GetActiveScene().buildIndex > level)
-            level = SceneManager.GetActiveScene().buildIndex;
+        if (SceneManager.GetActiveScene().buildIndex-1 > level)
+            level = SceneManager.GetActiveScene().buildIndex-1;
 
         // allows player to jump
         SpaceJump();

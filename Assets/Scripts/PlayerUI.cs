@@ -14,7 +14,6 @@ public class PlayerUI : MonoBehaviour
     public TMP_Text controls;
     public TMP_Text continue_dialogue;
     public TMP_Text coins;
-    public Player player;
 
     private void Start()
     {
@@ -28,6 +27,6 @@ public class PlayerUI : MonoBehaviour
     void Update()
     {
         // shows how many coins the player has
-        coins.text = "Coins: " + player.coins;
+        coins.text = "Coins: " + Player.coins + "\nLevel: " + Player.level;
     }
 }

@@ -5,6 +5,14 @@ using UnityEngine;
 public class Stick : MonoBehaviour
 {
     public Player player;
+    private bool ready = false;
+    private Collider temp;
+
+    public void Update()
+    {
+        if (ready)
+            temp.gameObject.SetActive(true);
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -19,8 +27,16 @@ public class Stick : MonoBehaviour
         }
         if (other.gameObject.GetComponent<Crate>())
         {
-            player.coins += other.gameObject.GetComponent<Crate>().coin_value;
+            temp = other;
+            Player.coins += other.gameObject.GetComponent<Crate>().coin_value;
             other.gameObject.SetActive(false);
+            ready = false;
+            StartCoroutine(RespawnCrate());
         }
+    }
+    public IEnumerator RespawnCrate()
+    {
+        yield return new WaitForSeconds(5f);
+        ready = true;
     }
 }
