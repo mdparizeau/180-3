@@ -18,15 +18,19 @@ public class Player : MonoBehaviour
     // setting the variables to check where the player is in relation 
     // to surrounding objects
     private bool is_grounded = true;
+    private int jumpForce = 7;
     private bool is_touching_left = false;
     private bool is_touching_right = false;
     private bool is_touching_forward = false;
     private bool is_touching_back = false;
     // variable for if player quit, or if they won
     public bool is_quitter = true;
-
-    private int level;
+    // variables for status of stick
     public GameObject stick;
+    private bool attacked = false;
+    // dynamic variables that track where the player has gone and how many coins they have
+    private int level;
+    public int coins;
 
     /// <summary>
     /// initialize player object and locking of mouse as cursor
@@ -38,12 +42,48 @@ public class Player : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<Door>().doorName == "Quit")
+        if (other.gameObject.GetComponent<Door>())
         {
             SceneManager.LoadScene(other.gameObject.GetComponent<Door>().sceneIndex);
-            Cursor.lockState = CursorLockMode.None;
-            is_quitter = true;
+            if (other.gameObject.GetComponent<Door>().doorName == "Quit")
+            {
+                Cursor.lockState = CursorLockMode.None;
+                is_quitter = true;
+            }
         }
+    }
+    private void SpaceJump()
+    {
+        if (Input.GetKeyDown("space") && is_grounded)
+        {
+            print("Jumped");
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+        Debug.DrawRay(transform.position, Vector3.down * 1.2f, Color.red);
+    }
+    private void Attack()
+    {
+        
+        // swings stick forward
+        if (Input.GetKeyDown("left shift") && moveSpeed > 0)
+        {
+            stick.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
+            attacked = true;
+        }
+        // returns stick to upright position
+        if (Input.GetKeyUp("left shift") && moveSpeed > 0)
+        {
+            stick.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
+            attacked = false;
+        }
+        if (attacked && moveSpeed == 0)
+        {
+            stick.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
+            attacked = false;
+        }
+            
+
+
     }
     void Update()
     {
@@ -53,9 +93,10 @@ public class Player : MonoBehaviour
 
         // make player move twice as slow when mid-air
         if (!is_grounded)
-            moveX /= 2;
-        if (!is_grounded)
-            moveZ /= 2;
+        {
+            moveX *= 0.75f;
+            moveZ *= 0.75f;
+        }
 
         // if running into wall, then stop player from moving
         if ((is_touching_forward && moveZ > 0) || (is_touching_back && moveZ < 0))
@@ -72,18 +113,14 @@ public class Player : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
         }
 
-        if ()
+        // update player's level if they enter a higher level than they've been to before
+        if (SceneManager.GetActiveScene().buildIndex > level)
+            level = SceneManager.GetActiveScene().buildIndex;
 
-        // swings stick forward
-        if (Input.GetKeyDown("left shift"))
-        {
-            stick.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
-        }
-        // returns stick to upright position
-        if (Input.GetKeyUp("left shift"))
-        {
-            stick.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
-        }
+        // allows player to jump
+        SpaceJump();
+        // allows player to attack
+        Attack();
 
         //if (SceneManager.GetActiveScene().buildIndex)
     }
@@ -116,19 +153,7 @@ public class Player : MonoBehaviour
         //Raycast forward to find a wall
         if (Physics.Raycast(front_ray, out hit) && !hit.collider.isTrigger)
             if (hit.distance <= .6)
-            {
                 is_touching_forward = true;
-                if (hit.collider.gameObject.GetComponent<dialogueTrigger>() && Input.GetKeyDown("e"))
-                {
-                    // start the dialogue
-                    hit.collider.gameObject.GetComponent<dialogueTrigger>().TriggerDialogue();
-                    // disable Player's keyboard and mouse movement
-                    moveSpeed = 0f;
-                    FindObjectOfType<MouseLook>().sensitivity = 0f;
-                    FindObjectOfType<PlayerUI>().continue_dialogue.text = "Press 'Q' to continue NPC dialogue";
-                    //while (Input.GetKeyDown("q"))
-                }
-            }
             else is_touching_forward = false;
 
         //Raycast back to find a wall

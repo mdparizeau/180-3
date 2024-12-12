@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Main_Room.unity
     guid: f2b4f2d2bed50384d9171675cbf372cd
   - enabled: 1
+    path: Assets/Scenes/Coin_Room2.unity
+    guid: 762924e38323f4448a4959aaed60b08b
+  - enabled: 1
     path: Assets/Scenes/Game Over.unity
     guid: d09c32201505f334da2b3785f7513d21
   m_configObjects: {}
