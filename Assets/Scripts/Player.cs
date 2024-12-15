@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     public bool is_quitter = true;
     // variables for status of stick
     public GameObject stick;
-    private bool attacked = false;
+    public bool attacked = false;
     // dynamic variables that track where the player has gone and how many coins they have
     public static int level = 0;
     public static int coins;
@@ -43,18 +43,7 @@ public class Player : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<Door>())
-        {
-            if (other.gameObject.GetComponent<Door>().doorName == "Guess")
-            {
-                if (coins >= 50)
-                {
-                    coins -= 50;
-                    SceneManager.LoadScene(other.gameObject.GetComponent<Door>().sceneIndex);
-                    Cursor.lockState = CursorLockMode.None;
-                }
-                else print("You broke!!");
-            }
-            else
+        {   if (other.gameObject.GetComponent<Door>().doorName != "Guess")
             {
                 SceneManager.LoadScene(other.gameObject.GetComponent<Door>().sceneIndex);
                 if (other.gameObject.GetComponent<Door>().doorName == "Quit")
@@ -62,7 +51,7 @@ public class Player : MonoBehaviour
                     Cursor.lockState = CursorLockMode.None;
                     is_quitter = true;
                 }
-            }
+            }     
         }
     }
     private void SpaceJump()
