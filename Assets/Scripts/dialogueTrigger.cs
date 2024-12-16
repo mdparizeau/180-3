@@ -10,11 +10,12 @@ public class dialogueTrigger : MonoBehaviour
     public dialogue Dialogue;
     public TMP_Text name;
     public bool doer;
-    public Text myText;
 
     public void Start()
     {
-        myText = GetComponent<Text>();
+        name.text = Dialogue.name;
+        // 1st=red, 2nd=green, 3rd=blue, 4th=alpha
+        name.color = new Color(0f, 1f, 0f, 1.0f);
     }
     public void TriggerDialogue()
     {
@@ -22,8 +23,7 @@ public class dialogueTrigger : MonoBehaviour
     }
     public void Update()
     {
-        name.text = Dialogue.name;
-        myText.color = Color.green;
+        
     }
     public void checkDoer()
     {

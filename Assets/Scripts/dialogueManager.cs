@@ -11,6 +11,7 @@ public class dialogueManager : MonoBehaviour
     public TMP_Text dialogueText;
 
     public Animator animator;
+    private dialogueTrigger dT;
 
     private Queue<string> sentences;
 
@@ -27,7 +28,9 @@ public class dialogueManager : MonoBehaviour
     void Update()
     {
         if (counter > 0 && Input.GetKeyDown("q"))
+        {
             DisplayNextSentence();
+        }
     }
 
     public void StartDialogue (dialogue Dialogue)
@@ -56,6 +59,8 @@ public class dialogueManager : MonoBehaviour
         if (counter == 3 || sentences.Count == 0)
         {
             EndDialogue();
+            //figure out how to get the actual text
+            //dT.name.color = new Color(1f, 1f, 1f, 0.8f);
             return;
         }
 
