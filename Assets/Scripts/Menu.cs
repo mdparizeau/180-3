@@ -19,6 +19,10 @@ public class Menu : MonoBehaviour
     public void SwitchScene(int sceneIndex)
     {
         SceneManager.LoadScene(sceneIndex);
+        // Resets static player variables
+        Player.coins = 0;
+        Player.level = 0;
+        //Player.is_quitter = true;
     }
 
     // Closes the application

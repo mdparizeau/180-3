@@ -39,8 +39,8 @@ public class dialogueTrigger : MonoBehaviour
         }
         else
         {
+            print("You were incorrect.");
             SceneManager.LoadScene(1);
-            print("You were indeed, incorrect.");
         }
     }
 }
