@@ -11,22 +11,22 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class PlayerUI : MonoBehaviour
 {
+    // Text variables for reference
     public TMP_Text controls;
     public TMP_Text continue_dialogue;
     public TMP_Text coins;
 
     private void Start()
     {
-        // allows player to continue dialogue
+        // Displays the controls for the player to continue dialogue
         continue_dialogue.text = "";
-        // shows player how to move, interact, and attack
+        // Shows player how to move, interact, and attack
         controls.text = "Move: WASD\nAttack: 'Shift'\nInteract: Attack";
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // shows how many coins the player has
+        // Shows how many coins the player has
         coins.text = "Coins: " + Player.coins + "\nLevel: " + Player.level;
     }
 }

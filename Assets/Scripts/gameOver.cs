@@ -4,27 +4,24 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Name: Michael Parizeau
+/// Date: 12/3/24
+/// Description: Displays the ending status of the player
+/// </summary>
 public class gameOver : MonoBehaviour
 {
     public Animator animator;
     public TMP_Text outcome;
-    //public Player player;
 
-    private void Start()
-    {
-        //player = gameObject
-    }
-
-    // Update is called once per frame
+    /// <summary>
+    /// Changes ending text based off of in the player quit or won the game
+    /// </summary>
     void Update()
     {
-        /*
-        if (!GetComponent<Player>().is_quitter)
+        if (Player.is_quitter)
             outcome.text = "Quitter!!";
-        else if (GetComponent<Player>().is_quitter)
+        else if (!Player.is_quitter)
             outcome.text = "Winner!!";
-        */
     }
-
-    
 }

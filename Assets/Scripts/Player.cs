@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     private bool is_touching_forward = false;
     private bool is_touching_back = false;
     // variable for if player quit, or if they won
-    public bool is_quitter = true;
+    public static bool is_quitter = true;
     // variables for status of stick
     public GameObject stick;
     public bool attacked = false;
@@ -40,6 +40,7 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         rb = GetComponent<Rigidbody>();
     }
+    // Manages the Player's collision interactions with doors
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<Door>())
@@ -54,18 +55,19 @@ public class Player : MonoBehaviour
             }     
         }
     }
+    /// <summary>
+    /// Allows the player to jump if they are on the ground and hit the spacebar
+    /// </summary>
     private void SpaceJump()
     {
         if (Input.GetKeyDown("space") && is_grounded)
         {
-            print("Jumped");
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
         Debug.DrawRay(transform.position, Vector3.down * 1.2f, Color.red);
     }
     private void Attack()
     {
-        
         // swings stick forward
         if (Input.GetKeyDown("left shift") && moveSpeed > 0)
         {
@@ -78,14 +80,12 @@ public class Player : MonoBehaviour
             stick.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
             attacked = false;
         }
+        // returns stick to upright position if they are not moving (talking to an NPC)
         if (attacked && moveSpeed == 0)
         {
             stick.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
             attacked = false;
         }
-            
-
-
     }
     void Update()
     {

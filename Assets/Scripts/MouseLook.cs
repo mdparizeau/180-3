@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Name: Michael Parizeau
 /// Date: 12/7/24
-/// Description: 
+/// Description: Allows the player to look around smoothly
 /// </summary>
 
 public class MouseLook : MonoBehaviour
