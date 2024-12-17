@@ -20,8 +20,14 @@ public class gameOver : MonoBehaviour
     void Update()
     {
         if (Player.is_quitter)
+        {
             outcome.text = "Quitter!!";
+            outcome.color = new Color(1f, 0.2f, 0f, 1.0f);
+        }
         else if (!Player.is_quitter)
+        {
             outcome.text = "Winner!!";
+            outcome.color = new Color(0f, 1f, 0.2f, 1.0f);
+        }
     }
 }

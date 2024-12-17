@@ -15,13 +15,18 @@ public class Stick : MonoBehaviour
     // Variable to tell the computer when to respawn the crate
     private bool ready = false;
     // Variable to tell the computer which crate to respawn
-    private Collider temp;
+    private Collider temp = null;
 
     // Checks, and if applicable, respawns the crate
     public void Update()
     {
-        if (ready)
-            temp.gameObject.SetActive(true);
+        if (temp != null)
+        {
+            if (temp.gameObject.GetComponent<Crate>() && ready)
+                temp.gameObject.SetActive(true);
+            else if (temp.gameObject.GetComponent<dialogueTrigger>() && FindObjectOfType<dialogueManager>().finished)
+                temp.gameObject.GetComponent<dialogueTrigger>().name.color = new Color(1f, 1f, 1f, 0.8f);
+        }
     }
     /// <summary>
     /// Function to allow the player to interact with different in-game objects by attacking
@@ -35,6 +40,7 @@ public class Stick : MonoBehaviour
             // Check if the attacked object is an NPC
             if (other.gameObject.GetComponent<dialogueTrigger>())
             {
+                temp = other;
                 // start the dialogue
                 other.gameObject.GetComponent<dialogueTrigger>().TriggerDialogue();
                 // disable Player's keyboard and mouse movement

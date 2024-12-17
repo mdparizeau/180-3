@@ -21,6 +21,7 @@ public class dialogueManager : MonoBehaviour
     // Variables for keeping track of which lines of dialogue to feature
     private int counter = 0;
     private string discard;
+    public bool finished = false;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +42,8 @@ public class dialogueManager : MonoBehaviour
     /// <param name="Dialogue"></param>
     public void StartDialogue (dialogue Dialogue)
     {
+        finished = false;
+
         animator.SetBool("isOpen", true);
 
         nameText.text = Dialogue.name;
@@ -104,6 +107,7 @@ public class dialogueManager : MonoBehaviour
         FindObjectOfType<Player>().moveSpeed = 5f;
         FindObjectOfType<MouseLook>().sensitivity = 20f;
         FindObjectOfType<PlayerUI>().continue_dialogue.text = "";
+        finished = true;
     }
 
 }
